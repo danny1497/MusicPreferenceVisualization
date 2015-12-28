@@ -1,0 +1,157 @@
+package prj5;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+/**
+ * Song list class
+ * 
+ * @author Nathan Mussie <k1ngz>
+ * @author Conor Dewey <cdewey96>
+ * @author Cort Fisher <cortef1>
+ * @version 2015.11.30
+ *
+ */
+public class SongList extends LList<Song> implements Iterable<Song> {
+
+    /**
+     * Sort songs by title or genre
+     * 
+     * @param sortBy
+     *            genre or title
+     */
+    public void sortSongs(String sortBy) {
+
+        int n = this.size();
+
+        if (sortBy.equals("title")) {
+            for (int j = 1; j < n; j++) {
+                String key = getAt(j).getTitle();
+                Song keySong = getAt(j);
+                int i = j - 1;
+                while ((i > -1) && (getAt(i).getTitle().compareTo(key) > 0)) {
+                    set(i + 1, getAt(i));
+                    i--;
+                }
+                set(i + 1, keySong);
+            }
+        } 
+        else if (sortBy.equals("genre")) {
+            for (int j = 1; j < n; j++) {
+                String key = getAt(j).getGenre().toLowerCase();
+                Song keySong = getAt(j);
+                int i = j - 1;
+                while ((i > -1) && (getAt(i).getGenre()
+                        .toLowerCase().compareTo(key) > 0)) {
+                    set(i + 1, getAt(i));
+                    i--;
+                }
+                set(i + 1, keySong);
+            }
+        }
+
+        else if (sortBy.equals("artist")) {
+            for (int j = 1; j < n; j++) {
+                String key = getAt(j).getArtist();
+                Song keySong = getAt(j);
+                int i = j - 1;
+                while ((i > -1) && (getAt(i).getArtist().compareTo(key) > 0)) {
+                    set(i + 1, getAt(i));
+                    i--;
+                }
+                set(i + 1, keySong);
+            }
+        }
+
+        else if (sortBy.equals("year")) {
+            for (int j = 1; j < n; j++) {
+                String key = getAt(j).getYear();
+                Song keySong = getAt(j);
+                int i = j - 1;
+                while ((i > -1) && (getAt(i).getYear().compareTo(key) > 0)) {
+                    set(i + 1, getAt(i));
+                    i--;
+                }
+                set(i + 1, keySong);
+            }
+        }
+    }
+
+    /**
+     * strings the song list together
+     * @return string of what's in the list
+     */
+    public String toString() {
+        String ans = "";
+        for (int i = 0; i < size(); i++) {
+            ans += "Song Title:" + getAt(i).getTitle();
+            System.out.println("Song Artist:" + getAt(i).getArtist());
+            System.out.println("Song Genre:" + getAt(i).getGenre());
+            System.out.println("Song Year:" + getAt(i).getYear());
+            System.out.println("Heard");
+            System.out.println("reading:" + getAt(i).getHobbyHeard(0) + " art:"
+                    + getAt(i).getHobbyHeard(1) + " sports:"
+                    + getAt(i).getHobbyHeard(2) + " music"
+                    + getAt(i).getHobbyHeard(3));
+            System.out.println("Likes");
+            System.out.println("reading:" + getAt(i).getHobbyLiked(0) + " art:"
+                    + getAt(i).getHobbyLiked(1) + " sports:"
+                    + getAt(i).getHobbyLiked(2) + " music"
+                    + getAt(i).getHobbyLiked(3));
+        }
+        return ans;
+    }
+
+    /**
+     * Iterator
+     * @return new Iterator
+     */
+    public Iterator<Song> iterator() {
+        return new SongListIterator<Song>();
+    }
+
+    /**
+     *
+     * Private class within song list
+     * 
+     * @param <Song>
+     */
+    @SuppressWarnings("hiding")
+    public class SongListIterator<Song> implements Iterator<Song> {
+
+        private int index;
+
+        /**
+         * constructor
+         */
+        public SongListIterator() {
+            this.index = 0;
+        }
+
+        /**
+         * To see if list has next
+         * 
+         * @return true if list has next
+         */
+        public boolean hasNext() {
+            return index < size();
+        }
+
+        /**
+         * iterates to the next song
+         * @return next entry
+         */
+        public Song next() {
+            if (this.hasNext()) {
+                @SuppressWarnings("unchecked")
+                Song nextEntry = (Song) getAt(index++);
+                return nextEntry;
+            } 
+            else {
+                throw new NoSuchElementException("Illegal call to next(); "
+                        + "iterator is after end of list.");
+            }
+        }
+    }
+
+}
