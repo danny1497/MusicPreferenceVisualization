@@ -1,0 +1,276 @@
+package prj5;
+
+/**
+ * Song class
+ * 
+ * @author Nathan Mussie <k1ngz>
+ * @author Conor Dewey <cdewey96>
+ * @author Cort Fisher <cortef1>
+ * @version 2015.11.30
+ *
+ */
+public class Song {
+
+    private String artist;
+    private String title;
+    private String year;
+    private String genre;
+
+    /**
+     * array with slots corresponding to hobbies [0] - Read [1] - Art [2] -
+     * Sports [3] - Music
+     */
+    private int[] heardByHobby = { 0, 0, 0, 0 };
+
+    /**
+     * array with slots corresponding to majors [0] - Math or CMDA [1] -
+     * Computer Science [2] - Other Engineering [3] - Other
+     */
+    private int[] heardByMajor = { 0, 0, 0, 0 };
+
+    /**
+     * array with slots corresponding to regions [0] - Northwest [1] - Southeast
+     * [2] - United States (other than Northeast or Southeast) [3] - Outside of
+     * United States
+     */
+    private int[] heardByRegion = { 0, 0, 0, 0 };
+
+    /**
+     * array with slots corresponding to hobbies [0] - Read [1] - Art [2] -
+     * Sports [3] - Music
+     */
+    private int[] likedByHobby = { 0, 0, 0, 0 };
+
+    /**
+     * array with slots corresponding to majors [0] - Math or CMDA [1] -
+     * Computer Science [2] - Other Engineering [3] - Other
+     */
+    private int[] likedByMajor = { 0, 0, 0, 0 };
+
+    /**
+     * array with slots corresponding to regions [0] - Northwest [1] - Southeast
+     * [2] - United States (other than Northeast or Southeast) [3] - Outside of
+     * United States
+     */
+    private int[] likedByRegion = { 0, 0, 0, 0 };
+
+    /**
+     * Song constructor
+     * 
+     * @param composer
+     *            artist
+     * @param titl
+     *            title
+     * @param yer
+     *            year
+     * @param genr
+     *            genre
+     */
+    public Song(String titl, String composer, String yer, String genr) {
+        artist = composer;
+        title = titl;
+        year = yer;
+        genre = genr;
+    }
+
+    /**
+     * Retrieving the artist name
+     * 
+     * @return artist
+     */
+    public String getArtist() {
+        return artist;
+    }
+
+    /**
+     * Gets the title of song
+     * 
+     * @return title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * Gets year of song
+     * 
+     * @return year
+     */
+    public String getYear() {
+        return year;
+    }
+
+    /**
+     * Gets the song's genre
+     * 
+     * @return genre
+     */
+    public String getGenre() {
+        return genre;
+    }
+
+    /**
+     * adds one to slot in hobby array that corresponds to the hobby
+     * 
+     * @param h
+     *            adding to heard hobby
+     */
+    public void addHeardHobby(int h) {
+        heardByHobby[h] += 1;
+    }
+
+    /**
+     * adds one to slot in major array that corresponds to the hobby
+     * 
+     * @param m
+     *            adding to heard major
+     */
+    public void addHeardMajor(int m) {
+        heardByMajor[m] += 1;
+    }
+
+    /**
+     * adds one to slot in region array that corresponds to the hobby
+     * 
+     * @param r
+     *            adding to heard region
+     */
+    public void addHeardRegion(int r) {
+        heardByRegion[r] += 1;
+    }
+
+    /**
+     * adds one to slot in region array that corresponds to the hobby
+     * 
+     * @param h
+     *            adding to liked hobby
+     */
+    public void addLikedHobby(int h) {
+        likedByHobby[h] += 1;
+    }
+
+    /**
+     * adds one to slot in region array that corresponds to the hobby
+     * 
+     * @param m
+     *            adding to liked major
+     */
+    public void addLikedMajor(int m) {
+        likedByMajor[m] += 1;
+    }
+
+    /**
+     * adds one to slot in region array that corresponds to the hobby
+     * 
+     * @param r
+     *            adding to liked region
+     */
+    public void addLikedRegion(int r) {
+        likedByRegion[r] += 1;
+    }
+
+    /**
+     * getter for corresponding number of heard hobbies
+     * 
+     * @param num
+     *            of hobby heard
+     * @return array with num as index           
+     */
+    public int getHobbyHeard(int num) {
+        return heardByHobby[num];
+    }
+
+    /**
+     * getter for corresponding number of heard major
+     * 
+     * @param num
+     *            of major heard
+     * @return array with num as an index           
+     */
+    public int getMajorHeard(int num) {
+        return heardByMajor[num];
+    }
+
+    /**
+     * getter for corresponding number of heard region
+     * 
+     * @param num
+     *            of region heard
+     * @return array with num as an index            
+     */
+    public int getRegionHeard(int num) {
+        return heardByRegion[num];
+    }
+
+    /**
+     * getter for corresponding number of liked hobbies
+     * 
+     * @param num
+     *            of hobby liked
+     * @return array with num as an index            
+     */
+    public int getHobbyLiked(int num) {
+        return likedByHobby[num];
+    }
+
+    /**
+     * getter for corresponding number of liked major
+     * 
+     * @param num
+     *            of major liked
+     * @return array with num as an index            
+     */
+    public int getMajorLiked(int num) {
+        return likedByMajor[num];
+    }
+  
+    /**
+     * getter for corresponding number of liked region
+     * 
+     * @param num
+     *            of region liked
+     * @return array with num as an index 
+     */
+    public int getRegionLiked(int num) {
+        return likedByRegion[num];
+    }
+
+    /**
+     * Strings together features of song
+     * 
+     * @return all of song's params
+     */
+    public String toString() {
+        String ans = "Song Title: " + getTitle() + "\n"
+                + "Song Artist: " + getArtist() + "\n"
+                + "Song Genre: " + getGenre() + "\n"
+                + "Song Year: " + getYear();
+        return ans;
+    }
+
+    /**
+     * Equals method
+     * 
+     * @param obj
+     *            of Object
+     * @return true if songs are equal
+     */
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+
+        // If obj is null, this can't be equal
+        if (obj == null) {
+            return false;
+        }
+
+        // If their classes are not the same, they can't be equal
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        Song other = (Song) obj;
+        return artist.equals(other.artist) && title.equals(other.title)
+                && genre.equals(other.genre) && year == other.getYear();
+    }
+}
