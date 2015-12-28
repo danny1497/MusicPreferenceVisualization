@@ -1,0 +1,477 @@
+package prj5;
+
+import java.awt.Color;
+
+import CS2114.Button;
+import CS2114.Shape;
+import CS2114.TextShape;
+import CS2114.Window;
+import CS2114.WindowSide;
+
+/**
+ * GUI Glyph class
+ * 
+ * @author Nathan Mussie <k1ngz>
+ * @author Conor Dewey <cdewey96>
+ * @author Cort Fisher <cortef1>
+ * @version 2015.11.30
+ *
+ */
+public class GUIVisual {
+
+    private Window myWindow;
+    private Shape myTextLegend;
+    private Shape title;
+    private Shape smallBar;
+    private Shape shape1;
+    private Shape shape2;
+    private Shape shape3;
+    private Shape shape4;
+    private Shape heard;
+    private Shape liked;
+    private SongList myMusic;
+    private Shape bottomLegend;
+    private Shape topLegend;
+    private Shape bottomLegend1;
+    private Shape topLegend1;
+    private Button hobby;
+    private Button major;
+    private Button region;
+    private Button prev;
+    private Button next;
+    private Button artist;
+    private Button song;
+    private Button year;
+    private Button genre;  
+    private int glyphNum = 0;
+    private String legendType = "hobby";
+    private String sortType = "title";
+
+    /**
+     * Constructor
+     */
+    public GUIVisual(SongList s) {
+        myMusic = s;
+        myWindow = new Window();
+        
+
+        /**
+         * Buttons
+         */
+        prev = new Button("<- Prev");
+        myWindow.addButton(prev, WindowSide.NORTH); 
+        prev.onClick(this, "generateGlyphs");
+        prev.disable();
+        
+        artist = new Button("Sort by Artist Name");
+        myWindow.addButton(artist, WindowSide.NORTH);
+        artist.onClick(this, "generateGlyphs");
+        
+        song = new Button("Sort by Song Name");
+        myWindow.addButton(song, WindowSide.NORTH);
+        song.onClick(this, "generateGlyphs");
+        
+        year = new Button("Sort by Release Year");
+        myWindow.addButton(year, WindowSide.NORTH);
+        year.onClick(this, "generateGlyphs");
+        
+        genre = new Button("Sort by Genre");
+        myWindow.addButton(genre, WindowSide.NORTH);
+        genre.onClick(this, "generateGlyphs");
+        
+        next = new Button("Next ->");
+        myWindow.addButton(next, WindowSide.NORTH);
+        next.onClick(this, "generateGlyphs");
+        
+        hobby = new Button("Represent Hobby");
+        myWindow.addButton(hobby, WindowSide.SOUTH);
+        hobby.onClick(this, "generateGlyphs");
+        
+        major = new Button("Represent Major");
+        myWindow.addButton(major, WindowSide.SOUTH);
+        major.onClick(this, "generateGlyphs");
+        
+        
+        region = new Button("Represent Region");
+        myWindow.addButton(region, WindowSide.SOUTH);
+        region.onClick(this, "generateGlyphs");
+        
+        
+        Button quit = new Button("Quit");
+        myWindow.addButton(quit, WindowSide.SOUTH);
+        quit.onClick(this, "clickedQuit");
+        
+        TextShape text = new TextShape(0, 0, "Choose A Way To Represent The Data", Color.BLACK);
+        myWindow.addShape(text);
+        text.setX(myWindow.getGraphPanelWidth()/2 - text.getWidth()/2);
+        text.setY(myWindow.getGraphPanelHeight()/2 - text.getHeight()/2);
+        
+    }
+
+   
+    
+    /**
+     * generates the glyphs 
+     */
+    public void generateGlyphs(Button b) {
+        myWindow.removeAllShapes();
+        myWindow.repaint();
+        
+     // Info box
+        if (b.equals(artist)) {
+            sortType = "artist";
+            myMusic.sortSongs("artist");
+        }
+        else if (b.equals(song)) {
+            sortType = "title";
+            myMusic.sortSongs("title");
+        }
+        else if (b.equals(year)) {
+            sortType = "year";
+            myMusic.sortSongs("year");
+        }
+        else if (b.equals(genre)) {
+            sortType = "genre";
+            myMusic.sortSongs("genre");
+        }
+        else if (b.equals(prev)) {
+            if (glyphNum >= 9) {  
+                glyphNum -= 9;
+                next.enable();
+            }
+            if (glyphNum == 0) {
+                prev.disable();
+            } 
+        }
+        else if (b.equals(next)) {
+            if (glyphNum < myMusic.size() - 9) {
+                glyphNum += 9;
+                prev.enable();
+            }
+            if (glyphNum > myMusic.size() - 9) {
+                next.disable();
+            }
+        }
+        else if (b.equals(hobby)) {
+            legendType = "hobby";
+            System.out.println(legendType);
+        }
+        else if (b.equals(major)) {
+            legendType = "major";
+            System.out.println(legendType);
+        }
+        else if (b.equals(region)) {
+            legendType = "region";
+            System.out.println(legendType);
+        }
+        
+        
+        updateLegend();
+        updateGlyphRepresentation();
+        updateSongLabels();
+              
+    }
+
+    /**
+     * updates legend based on what 
+     * wants to be represented
+     */
+    public void updateLegend() {
+        if (legendType.equals("hobby")) {
+            myTextLegend = new TextShape(myWindow.getGraphPanelWidth() - 172, 20,
+                    "Hobby Legend");
+            myWindow.addShape(myTextLegend);
+            myTextLegend.setBackgroundColor(Color.WHITE);
+            shape1 = new TextShape(myWindow.getGraphPanelWidth() - 172, 40, "Read",
+                    Color.MAGENTA);
+            myWindow.addShape(shape1);
+            shape1.setBackgroundColor(Color.WHITE);
+            shape2 = new TextShape(myWindow.getGraphPanelWidth() - 172, 60, "Art",
+                    Color.BLUE);
+            myWindow.addShape(shape2);
+            shape2.setBackgroundColor(Color.WHITE);
+            shape3 = new TextShape(myWindow.getGraphPanelWidth() - 172, 80, "Sport",
+                    Color.ORANGE);
+            myWindow.addShape(shape3);
+            shape3.setBackgroundColor(Color.WHITE);
+            shape4 = new TextShape(myWindow.getGraphPanelWidth() - 172, 100,
+                    "Music", Color.GREEN);
+            myWindow.addShape(shape4);
+            shape4.setBackgroundColor(Color.WHITE);
+        }
+        else if (legendType.equals("major")) {
+            myTextLegend = new TextShape(myWindow.getGraphPanelWidth() - 172, 20,
+                    "Major Legend");
+            myWindow.addShape(myTextLegend);
+            myTextLegend.setBackgroundColor(Color.WHITE);
+            shape1 = new TextShape(myWindow.getGraphPanelWidth() - 172, 40, "Math or CMDA",
+                    Color.MAGENTA);
+            myWindow.addShape(shape1);
+            shape1.setBackgroundColor(Color.WHITE);
+            shape2 = new TextShape(myWindow.getGraphPanelWidth() - 172, 60, "Comp Scie",
+                    Color.BLUE);
+            myWindow.addShape(shape2);
+            shape2.setBackgroundColor(Color.WHITE);
+            shape3 = new TextShape(myWindow.getGraphPanelWidth() - 172, 80, "Other Eng",
+                    Color.ORANGE);
+            myWindow.addShape(shape3);
+            shape3.setBackgroundColor(Color.WHITE);
+            shape4 = new TextShape(myWindow.getGraphPanelWidth() - 172, 100,
+                    "Other", Color.GREEN);
+            myWindow.addShape(shape4);
+            shape4.setBackgroundColor(Color.WHITE);
+        }
+        else if (legendType.equals("region")) {
+            myTextLegend = new TextShape(myWindow.getGraphPanelWidth() - 172, 20,
+                    "Region Legend");
+            myWindow.addShape(myTextLegend);
+            myTextLegend.setBackgroundColor(Color.WHITE);
+            shape1 = new TextShape(myWindow.getGraphPanelWidth() - 172, 40, "Northeast",
+                    Color.MAGENTA);
+            myWindow.addShape(shape1);
+            shape1.setBackgroundColor(Color.WHITE);
+            shape2 = new TextShape(myWindow.getGraphPanelWidth() - 172, 60, "Southeast",
+                    Color.BLUE);
+            myWindow.addShape(shape2);
+            shape2.setBackgroundColor(Color.WHITE);
+            shape3 = new TextShape(myWindow.getGraphPanelWidth() - 172, 80, "United States",
+                    Color.ORANGE);
+            myWindow.addShape(shape3);
+            shape3.setBackgroundColor(Color.WHITE);
+            shape4 = new TextShape(myWindow.getGraphPanelWidth() - 172, 100,
+                    "Outside US", Color.GREEN);
+            myWindow.addShape(shape4);
+            shape4.setBackgroundColor(Color.WHITE);
+        }
+
+        myWindow.setTitle("Music Preference Visualization");
+        // left
+        bottomLegend = new Shape(myWindow.getGraphPanelWidth() - 175, 15, 3,
+                200, Color.BLACK); // x, y, width, height
+        myWindow.addShape(bottomLegend);
+        // top
+        topLegend = new Shape(myWindow.getGraphPanelWidth() - 175, 15, 108, 3,
+                Color.BLACK);
+        myWindow.addShape(topLegend);
+        // right
+        bottomLegend1 = new Shape(myWindow.getGraphPanelWidth() - 70, 15, 3,
+                203, Color.BLACK);
+        myWindow.addShape(bottomLegend1);
+        // bottom
+        topLegend1 = new Shape(myWindow.getGraphPanelWidth() -175, 215, 108, 3,
+                Color.BLACK);
+        myWindow.addShape(topLegend1);
+        title = new TextShape(myWindow.getGraphPanelWidth() - 172, 150,
+                "Song Title");
+        myWindow.addShape(title);
+        title.setBackgroundColor(Color.WHITE);
+
+        smallBar = new Shape(myWindow.getGraphPanelWidth() - 130, 175, 4, 30,
+                Color.BLACK);
+        myWindow.addShape(smallBar);
+
+        heard = new TextShape(myWindow.getGraphPanelWidth() - 172, 180, "heard");
+        myWindow.addShape(heard);
+        heard.setBackgroundColor(Color.WHITE);
+        liked = new TextShape(myWindow.getGraphPanelWidth() - 125, 180, "liked");
+        myWindow.addShape(liked);
+        liked.setBackgroundColor(Color.WHITE);
+        
+    }
+    
+    /**
+     * update the glyphs depending on which 
+     * category they are represented by
+     */
+    public void updateGlyphRepresentation() {
+        if (legendType.equals("hobby")) {
+            for (int i = 0; i < 9; i++) {
+                if (glyphNum + i + 1 < myMusic.size()) {
+                    myWindow.addShape(new Shape((i%3 * 200) + 100, ((i/3) * 100) + 50, 4, 35, Color.BLACK));
+                    
+                    myWindow.addShape(new Shape((i%3 * 200) + 100 - (int)(((double)myMusic.getAt(glyphNum + i).getHobbyHeard(0)
+                            / Input.hobbyArray[0]) * 75), 
+                            ((i/3) * 100) + 55, (int)(((double)myMusic.getAt(glyphNum + i).getHobbyHeard(0)
+                                    / Input.hobbyArray[0]) * 75), 5, Color.MAGENTA));
+                    myWindow.addShape(new Shape((i%3 * 200) + 100, ((i/3) * 100) + 55, (int)(((double)myMusic.getAt(glyphNum + i).getHobbyLiked(0)
+                            / Input.hobbyArray[0]) * 75), 5, Color.MAGENTA));
+                    
+                    myWindow.addShape(new Shape((i%3 * 200) + 100 - (int)(((double)myMusic.getAt(glyphNum + i).getHobbyHeard(1)
+                            / Input.hobbyArray[1]) * 75),
+                            ((i/3) * 100) + 60, (int)(((double)myMusic.getAt(glyphNum + i).getHobbyHeard(1)
+                                    / Input.hobbyArray[1]) * 75), 5, Color.BLUE));
+                    myWindow.addShape(new Shape((i%3 * 200) + 100, ((i/3) * 100) + 60, (int)(((double)myMusic.getAt(glyphNum + i).getHobbyLiked(1)
+                            / Input.hobbyArray[1]) * 75), 5, Color.BLUE));
+                    myWindow.addShape(new Shape((i%3 * 200) + 100 - (int)(((double)myMusic.getAt(glyphNum + i).getHobbyHeard(2)
+                            / Input.hobbyArray[2]) * 75),
+                            ((i/3) * 100) + 65, (int)(((double)myMusic.getAt(glyphNum + i).getHobbyHeard(2)
+                                    / Input.hobbyArray[2]) * 75), 5, Color.ORANGE));
+                    myWindow.addShape(new Shape((i%3 * 200) + 100, ((i/3) * 100) + 65, (int)(((double)myMusic.getAt(glyphNum + i).getHobbyLiked(2)
+                            / Input.hobbyArray[2]) * 75), 5, Color.ORANGE));
+                    
+                    myWindow.addShape(new Shape((i%3 * 200) + 100 - (int)(((double)myMusic.getAt(glyphNum + i).getHobbyHeard(3)
+                            / Input.hobbyArray[3]) * 75),
+                            ((i/3) * 100) + 70, (int)(((double)myMusic.getAt(glyphNum + i).getHobbyHeard(3)
+                                    / Input.hobbyArray[3]) * 75), 5, Color.GREEN));
+                    myWindow.addShape(new Shape((i%3 * 200) + 100, ((i/3) * 100) + 70, (int)(((double)myMusic.getAt(glyphNum + i).getHobbyLiked(3)
+                            / Input.hobbyArray[3]) * 75), 5, Color.GREEN));
+                }   
+            }
+        }
+        else if (legendType.equals("major")) {
+            for (int i = 0; i < 9; i++) {
+                if (glyphNum + i + 1 < myMusic.size()) {
+                    myWindow.addShape(new Shape((i%3 * 200) + 100, ((i/3) * 100) + 50, 4, 35, Color.BLACK));
+                    
+                    myWindow.addShape(new Shape((i%3 * 200) + 100 - (int)(((double)myMusic.getAt(glyphNum + i).getMajorHeard(0)
+                            / Input.majorArray[0]) * 75), 
+                            ((i/3) * 100) + 55, (int)(((double)myMusic.getAt(glyphNum + i).getMajorHeard(0)
+                                    / Input.majorArray[0]) * 75), 5, Color.MAGENTA));
+                    myWindow.addShape(new Shape((i%3 * 200) + 100, ((i/3) * 100) + 55, (int)(((double)myMusic.getAt(glyphNum + i).getMajorLiked(0)
+                            / Input.majorArray[0]) * 75), 5, Color.MAGENTA));
+                    
+                    myWindow.addShape(new Shape((i%3 * 200) + 100 - (int)(((double)myMusic.getAt(glyphNum + i).getMajorHeard(1)
+                            / Input.majorArray[1]) * 75),
+                            ((i/3) * 100) + 60, (int)(((double)myMusic.getAt(glyphNum + i).getMajorHeard(1)
+                                    / Input.majorArray[1]) * 75), 5, Color.BLUE));
+                    myWindow.addShape(new Shape((i%3 * 200) + 100, ((i/3) * 100) + 60, (int)(((double)myMusic.getAt(glyphNum + i).getMajorLiked(1)
+                            / Input.majorArray[1]) * 75), 5, Color.BLUE));
+                    
+                    myWindow.addShape(new Shape((i%3 * 200) + 100 - (int)(((double)myMusic.getAt(glyphNum + i).getMajorHeard(2)
+                            / Input.majorArray[2]) * 75),
+                            ((i/3) * 100) + 65, (int)(((double)myMusic.getAt(glyphNum + i).getMajorHeard(2)
+                                    / Input.majorArray[2]) * 75), 5, Color.ORANGE));
+                    myWindow.addShape(new Shape((i%3 * 200) + 100, ((i/3) * 100) + 65, (int)(((double)myMusic.getAt(glyphNum + i).getMajorLiked(2)
+                            / Input.majorArray[2]) * 75), 5, Color.ORANGE));
+                    
+                    myWindow.addShape(new Shape((i%3 * 200) + 100 - (int)(((double)myMusic.getAt(glyphNum + i).getMajorHeard(3)
+                            / Input.majorArray[3]) * 75),
+                            ((i/3) * 100) + 70, (int)(((double)myMusic.getAt(glyphNum + i).getMajorHeard(3)
+                                    / Input.majorArray[3]) * 75), 5, Color.GREEN));
+                    myWindow.addShape(new Shape((i%3 * 200) + 100, ((i/3) * 100) + 70, (int)(((double)myMusic.getAt(glyphNum + i).getMajorLiked(3)
+                            / Input.majorArray[3]) * 75), 5, Color.GREEN));
+                }   
+            }
+        }
+        else if (legendType.equals("region")) {
+            for (int i = 0; i < 9; i++) {
+                if (glyphNum + i + 1 < myMusic.size()) {
+                    myWindow.addShape(new Shape((i%3 * 200) + 100, ((i/3) * 100) + 50, 4, 35, Color.BLACK));
+                    
+                    myWindow.addShape(new Shape((i%3 * 200) + 100 - (int)(((double)myMusic.getAt(glyphNum + i).getRegionHeard(0)
+                            / Input.regionArray[0]) * 75), 
+                            ((i/3) * 100) + 55, (int)(((double)myMusic.getAt(glyphNum + i).getRegionHeard(0)
+                                    / Input.regionArray[0]) * 75), 5, Color.MAGENTA));
+                    myWindow.addShape(new Shape((i%3 * 200) + 100, ((i/3) * 100) + 55,
+                            (int)(((double)myMusic.getAt(glyphNum + i).getRegionLiked(0)
+                                    / Input.regionArray[0]) * 75), 5, Color.MAGENTA));
+                    
+                    myWindow.addShape(new Shape((i%3 * 200) + 100 - (int)(((double)myMusic.getAt(glyphNum + i).getRegionHeard(1)
+                            / Input.regionArray[1]) * 75),
+                            ((i/3) * 100) + 60, (int)(((double)myMusic.getAt(glyphNum + i).getRegionHeard(1)
+                                    / Input.regionArray[1]) * 75), 5, Color.BLUE));
+                    myWindow.addShape(new Shape((i%3 * 200) + 100, ((i/3) * 100) + 60, 
+                            (int)(((double)myMusic.getAt(glyphNum + i).getRegionLiked(1)
+                                    / Input.regionArray[1]) * 75), 5, Color.BLUE));
+                    
+                    myWindow.addShape(new Shape((i%3 * 200) + 100 - (int)(((double)myMusic.getAt(glyphNum + i).getRegionHeard(2)
+                            / Input.regionArray[2]) * 75),
+                            ((i/3) * 100) + 65, (int)(((double)myMusic.getAt(glyphNum + i).getRegionHeard(2)
+                                    / Input.regionArray[2]) * 75), 5, Color.ORANGE));
+                    myWindow.addShape(new Shape((i%3 * 200) + 100, ((i/3) * 100) + 65, 
+                            (int)(((double)myMusic.getAt(glyphNum + i).getRegionLiked(2)
+                                    / Input.regionArray[2]) * 75), 5, Color.ORANGE));
+                    
+                    myWindow.addShape(new Shape((i%3 * 200) + 100 - (int)(((double)myMusic.getAt(glyphNum + i).getRegionHeard(3)
+                            / Input.regionArray[3]) * 75),
+                            ((i/3) * 100) + 70, (int)(((double)myMusic.getAt(glyphNum + i).getRegionHeard(3)
+                                    / Input.regionArray[3]) * 75), 5, Color.GREEN));
+                    myWindow.addShape(new Shape((i%3 * 200) + 100, ((i/3) * 100) + 70, 
+                            (int)(((double)myMusic.getAt(glyphNum + i).getRegionLiked(3)
+                                    / Input.regionArray[3]) * 75), 5, Color.GREEN));
+                }   
+            }
+        }
+    }
+    
+    /**
+     * Updates the Song Labels depending on how it is sorted
+     */
+    public void updateSongLabels() {
+        if (sortType.equals("title") || sortType.equals("artist")) {   
+            for (int i = 0; i < 9; i++) {
+                if (glyphNum + i + 1 < myMusic.size()) {
+                    TextShape t = new TextShape((i%3 * 200) + 100 - myMusic.getAt(glyphNum + i).getRegionHeard(0), ((i/3) * 100) + 10, "" + myMusic.getAt(glyphNum + i).getTitle(),
+                            Color.BLACK);
+                    TextShape t2 = new TextShape((i%3 * 200) + 100 - myMusic.getAt(glyphNum + i).getRegionHeard(0), ((i/3) * 100) + 30, "by " + myMusic.getAt(glyphNum + i).getArtist(),
+                            Color.BLACK);
+                    
+                    if (t.getText().length() > 30) {
+                        t.setText(t.getText().substring(0, 30) + "...");
+                    }
+                    myWindow.addShape(t);
+                    myWindow.addShape(t2);
+                    t.setX((i%3 * 200) + 100 - t.getWidth()/2);
+                    t2.setX((i%3 * 200) + 100 - t2.getWidth()/2);
+                }
+            }
+        }
+        else if (sortType.equals("year")) {
+            for (int i = 0; i < 9; i++) {
+                if (glyphNum + i + 1 < myMusic.size()) {
+                    TextShape t = new TextShape((i%3 * 200) + 100 - myMusic.getAt(glyphNum + i).getRegionHeard(0), ((i/3) * 100) + 10, "" + myMusic.getAt(glyphNum + i).getTitle(),
+                            Color.BLACK);
+                    TextShape t2 = new TextShape((i%3 * 200) + 100 - myMusic.getAt(glyphNum + i).getRegionHeard(0), ((i/3) * 100) + 30, "year:  " + myMusic.getAt(glyphNum + i).getYear(),
+                            Color.BLACK);
+                    
+                    if (t.getText().length() > 30) {
+                        t.setText(t.getText().substring(0, 30) + "...");
+                    }
+                    myWindow.addShape(t);
+                    myWindow.addShape(t2);
+                    t.setX((i%3 * 200) + 100 - t.getWidth()/2);
+                    t2.setX((i%3 * 200) + 100 - t2.getWidth()/2);
+                }
+            }
+        }
+        else if (sortType.equals("genre")) {
+            for (int i = 0; i < 9; i++) {
+                if (glyphNum + i + 1 < myMusic.size()) {
+                    TextShape t = new TextShape((i%3 * 200) + 100 - myMusic.getAt(glyphNum + i).getRegionHeard(0), ((i/3) * 100) + 10, "" + myMusic.getAt(glyphNum + i).getTitle(),
+                            Color.BLACK);
+                    TextShape t2 = new TextShape((i%3 * 200) + 100 - myMusic.getAt(glyphNum + i).getRegionHeard(0), ((i/3) * 100) + 30, "genre: " + myMusic.getAt(glyphNum + i).getGenre(),
+                            Color.BLACK);
+                    
+                    if (t.getText().length() > 30) {
+                        t.setText(t.getText().substring(0, 30) + "...");
+                    }
+                    myWindow.addShape(t);
+                    myWindow.addShape(t2);
+                    t.setX((i%3 * 200) + 100 - t.getWidth()/2);
+                    t2.setX((i%3 * 200) + 100 - t2.getWidth()/2);
+                }
+            }
+        }
+    }
+    
+    /**
+     * Retrieves the window display
+     * 
+     * @return myWindow
+     */
+    public Window getWindow() {
+        return myWindow;
+    }
+
+    /**
+     * Creates a quit button
+     * 
+     * @param button
+     *            the quit button
+     */
+    public void clickedQuit(Button button) {
+        System.exit(0);
+    }
+
+
+    
