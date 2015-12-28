@@ -1,0 +1,106 @@
+package prj5;
+
+import student.TestCase;
+
+/**
+ * Test class for song
+ * 
+ * @author Nathan Mussie <k1ngz>
+ * @author Conor Dewey <cdewey96>
+ * @author Cort Fisher <cortef1>
+ * @version 2015.11.30
+ *
+ */
+public class SongTest extends TestCase {
+
+    private Song song;
+    private Song sameSong;
+    private Song diffSong;
+    private Song almostArtist;
+    private Song almostYear;
+    private Song almostTitle;
+    private Song almostGenre;
+
+    /**
+     * sets up each test case
+     */
+    public void setUp() {
+        song = new Song("Cat", "50", "2015", "Rap");
+        sameSong = new Song("Cat", "50", "2015", "Rap");
+        almostArtist = new Song("Cat", "Kanye", "2015", "Rap");
+        almostTitle = new Song("Dog", "50", "2015", "Rap");
+        almostYear = new Song("Cat", "50", "2014", "Rap");
+        almostGenre = new Song("Cat", "50", "2015", "Pop");
+        diffSong = new Song("Dog", "Kanye", "2014", "Rap");
+
+    }
+
+    /**
+     * tests all getters
+     */
+    public void testEverything() {
+        assertEquals("Cat", song.getTitle());
+        assertEquals("50", song.getArtist());
+        assertEquals("2015", song.getYear());
+        assertEquals("Rap", song.getGenre());
+
+    }
+
+    /**
+     * tests toString method
+     */
+    public void testToString() {
+        String ans = "Song Title: Cat" + "\n" + "Song Artist: 50" + "\n"
+                + "Song Genre: Rap" + "\n" + "Song Year: 2015";
+        assertEquals(ans, song.toString());
+
+    }
+
+    /**
+     * tests equals method
+     */
+    public void testEquals() {
+        Object obj = new Object();
+        assertFalse(song.equals(obj));
+        obj = song;
+        assertTrue(song.equals(obj));
+        assertTrue(song.equals(sameSong));
+        assertFalse(song.equals(diffSong));
+        assertFalse(song.equals(almostArtist));
+        assertFalse(song.equals(almostGenre));
+        assertFalse(song.equals(almostTitle));
+        assertFalse(song.equals(almostYear));
+        diffSong = null;
+        assertFalse(song.equals(diffSong));
+    }
+
+    /**
+     * tests all add methods
+     */
+    public void testAddMethods() {
+        assertEquals(0, song.getHobbyHeard(0));
+        song.addHeardHobby(0);
+        assertEquals(1, song.getHobbyHeard(0));
+
+        assertEquals(0, song.getMajorHeard(1));
+        song.addHeardMajor(1);
+        assertEquals(1, song.getMajorHeard(1));
+
+        assertEquals(0, song.getRegionHeard(2));
+        song.addHeardRegion(2);
+        assertEquals(1, song.getRegionHeard(2));
+
+        assertEquals(0, song.getHobbyLiked(3));
+        song.addLikedHobby(3);
+        assertEquals(1, song.getHobbyLiked(3));
+
+        assertEquals(0, song.getMajorLiked(0));
+        song.addLikedMajor(0);
+        assertEquals(1, song.getMajorLiked(0));
+
+        assertEquals(0, song.getRegionLiked(0));
+        song.addLikedRegion(0);
+        assertEquals(1, song.getRegionLiked(0));
+
+    }
+}
