@@ -1,0 +1,102 @@
+package prj5;
+
+/**
+ * Person class
+ * 
+ * @author Nathan Mussie <k1ngz>
+ * @author Conor Dewey <cdewey96>
+ * @author Cort Fisher <cortef1>
+ * @version 2015.11.30
+ *
+ */
+public class Person {
+
+    private String hobby;
+    private String major;
+    private String state;
+
+    /**
+     * Person constructor
+     * 
+     * @param hoby
+     *            hobby of person
+     * @param maj
+     *            major of person
+     * @param stat
+     *            state lived in
+     */
+    public Person(String hoby, String maj, String stat) {
+        hobby = hoby;
+        major = maj;
+        state = stat;
+    }
+
+    /**
+     * Gets the hobby of person
+     * 
+     * @return hobby
+     */
+    public String getHobby() {
+        return hobby;
+    }
+
+    /**
+     * Gets the major of person
+     * 
+     * @return major
+     */
+    public String getMajor() {
+        return major;
+    }
+
+    /**
+     * Gets the state where the person is from
+     * 
+     * @return state
+     */
+    public String getState() {
+        return state;
+    }
+
+    /**
+     * Strings together hobby, major, and state of the person
+     * 
+     * @return toString of person
+     */
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(hobby);
+        sb.append(",");
+        sb.append(major);
+        sb.append(",");
+        sb.append(state);
+        return sb.toString();
+    }
+
+    /**
+     * Equals method
+     * 
+     * @param obj
+     *            of another object
+     * @return true if person equals other person
+     */
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+
+        // If obj is null, this can't be equal
+        if (obj == null) {
+            return false;
+        }
+
+        // If their classes are not the same, they can't be equal
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        Person other = (Person) obj;
+        return hobby.equals(other.hobby) && major.equals(other.major)
+                && state.equals(other.state);
+    }
+
+}
