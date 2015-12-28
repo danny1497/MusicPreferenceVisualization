@@ -1,0 +1,276 @@
+package prj5;
+
+/**
+ * Linked list class
+ * 
+ * @author Nathan Mussie <k1ngz>
+ * @author Conor Dewey <cdewey96>
+ * @author Cort Fisher <cortef1>
+ * @version 2015.11.30
+ * @param <T>
+ *            generic type
+ */
+public class LList<T> {
+
+    private Node<T> head;
+    private int size;
+
+    /**
+     * Constructor initialized head and sets size to 0
+     */
+    public LList() {
+        head = null;
+        size = 0;
+    }
+
+    /**
+     * Getter for size
+     * 
+     * @return size the size of the list
+     */
+    public int size() {
+        return size;
+    }
+
+    /**
+     * adds a node at desired location
+     * 
+     * @param index
+     *            the index to be added
+     * @param entry
+     *            the data to be added
+     */
+    public void add(int index, T entry) {
+        Node<T> current = head;
+        if (isEmpty()) {
+            head = new Node<T>(entry);
+        } 
+        else if (index == 0) {
+            Node<T> newNode = new Node<T>(entry);
+            head = newNode;
+            newNode.setNext(current);
+        } 
+        else {
+            int currentIndex = 0;
+            while (current != null) {
+                if (index == currentIndex + 1) {
+                    Node<T> nextNext = current.next;
+                    Node<T> newNode = new Node<T>(entry);
+                    current.setNext(newNode);
+                    newNode.setNext(nextNext);
+                }
+                current = current.next();
+                currentIndex++;
+            }
+        }
+        size++;
+    }
+
+    /**
+     * adds data to end of the list
+     * 
+     * @param enTry
+     *            the data to be added
+     */
+    public void add(T enTry) {
+        Node<T> current = head;
+        if (isEmpty()) {
+            head = new Node<T>(enTry);
+        } 
+        else {
+            for (int i = 0; i < size - 1; i++) {
+                current = current.next;
+
+            }
+            current.setNext(new Node<T>(enTry));
+        }
+        size++;
+    }
+
+    /**
+     * Sets a position to a specific entry
+     * 
+     * @param position
+     *            The position to be set
+     * @param entry
+     *            The data to be set to
+     */
+    public void set(int position, T entry) {
+        Node<T> nextNode = null;
+        Node<T> preNode;
+        Node<T> currentNode;
+        Node<T> newNode;
+        int count = 1;
+        newNode = new Node<T>(entry);
+        preNode = head;
+        while (count < position && count < size) {
+            preNode = preNode.next();
+            count++;
+        }
+        if (position >= 1) {
+            currentNode = preNode.next();
+        } 
+        else {
+            currentNode = head;
+        }
+        if (position < size - 1) {
+            nextNode = currentNode.next();
+        }
+        if (position >= 1) {
+            preNode.setNext(newNode);
+        }
+        newNode.setNext(nextNode);
+        if (position == 0) {
+            head = newNode;
+        }
+
+    }
+
+    /**
+     * checks if the list is empty
+     * 
+     * @return True if empty
+     */
+    public boolean isEmpty() {
+        return (size == 0);
+    }
+
+    /**
+     * Removes specified object
+     * 
+     * @param obj
+     *            Object to be removed
+     * @return True if found and removed
+     */
+    public boolean remove(T obj) {
+        Node<T> current = head;
+        if ((head != null) && (obj.equals(current.data))) {
+            head = head.next;
+            size--;
+            return true;
+        }
+        while (size() >= 2 && null != current.next) {
+            if (current.next.data.equals(obj)) {
+                if (current.next.next != null) {
+                    current.setNext(current.next.next);
+                } 
+                else {
+                    current.setNext(null);
+                }
+                size--;
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
+    }
+
+    /**
+     * Gets the node at certain index
+     * 
+     * @param index
+     *            the index to be returned
+     * @return data the data of that index
+     */
+    public T getAt(int index) {
+        Node<T> current = head;
+        int currentIndex = 0;
+        T data = null;
+        while (null != current) {
+            if (index == currentIndex) {
+                data = current.data;
+            }
+            currentIndex++;
+            current = current.next;
+        }
+        if (null == data) {
+            throw new IndexOutOfBoundsException("Index exceeds the size.");
+        }
+        return data;
+    }
+
+    /**
+     * Clears the list
+     */
+    public void clear() {
+        if (head != null) {
+            head.setNext(null);
+            head = null;
+        }
+        size = 0;
+    }
+
+    /**
+     * Returns a string representation of the list If a list contains A, B, and
+     * C, the following should be returned "{A, B, C}" (Without the quotations)
+     *
+     * @return a string representing the list
+     */
+    @Override
+    public String toString() {
+        String result = "[";
+
+        Node<T> current = head;
+        while (null != current) {
+            result += "" + current.data;
+            current = current.next;
+            if (null != current) {
+                result += ", ";
+            }
+        }
+        result += "]";
+        return result;
+    }
+
+    /**
+     * Implementation of a Node
+     * 
+     * @author Nathan Mussie, Conor Dewey, Cort Fisher
+     *
+     * @param <T>
+     *            Generic data type
+     */
+    private static class Node<T> {
+        private T data;
+        private Node<T> next;
+
+        /**
+         * Adds data to a node upon construction
+         * 
+         * @param data
+         *            The data to be added
+         */
+        public Node(T data) {
+            this.data = data;
+        }
+
+        /**
+         * Sets the next node
+         * 
+         * @param next
+         *            The next node to be set
+         */
+        public void setNext(Node<T> next) {
+            this.next = next;
+        }
+
+        /**
+         * Gets the next node from current reference
+         * 
+         * @return next The next node
+         */
+        public Node<T> next() {
+            return next;
+        }
+
+        /**
+         * Getter for node's data
+         * 
+         * @return data The node's data
+         */
+        @SuppressWarnings("unused")
+        public T getData() {
+            return data;
+        }
+    }
+}
