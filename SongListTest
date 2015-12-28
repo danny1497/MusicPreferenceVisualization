@@ -1,0 +1,136 @@
+package prj5;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+import student.TestCase;
+
+/**
+ * Song list test
+ * 
+ * @author Nathan Mussie <k1ngz>
+ * @author Conor Dewey <cdewey96>
+ * @author Cort Fisher <cortef1>
+ * @version 2015.11.30
+ *
+ */
+public class SongListTest extends TestCase {
+
+    private Song song1;
+    private Song song2;
+    private Song song3;
+    private Song song4;
+    private SongList originalList;
+    private SongList emptyList;
+
+    /**
+     * sets up every test case
+     */
+    public void setUp() {
+        originalList = new SongList();  
+        emptyList = new SongList();
+        song1 = new Song("Dog", "Chris", "2000", "Rap");
+        song2 = new Song("Cat", "Tim", "1999", "Country");
+        song3 = new Song("Lamb", "Randy", "2001", "Rock");
+        song4 = new Song("Bird", "John", "1992", "Dubstep");
+        originalList.add(song1);
+        originalList.add(song2);
+        originalList.add(song3);
+        originalList.add(song4);
+
+    }
+
+    /**
+     * tests sort by title
+     */
+    public void testSortByTitle() {
+        SongList titleList = new SongList();
+        titleList.add(song4);
+        titleList.add(song2);
+        titleList.add(song1);
+        titleList.add(song3);
+        originalList.sortSongs("title");
+        assertEquals(originalList.getAt(0), titleList.getAt(0));
+        assertEquals(originalList.getAt(1), titleList.getAt(1));
+        assertEquals(originalList.getAt(2), titleList.getAt(2));
+        assertEquals(originalList.getAt(3), titleList.getAt(3));
+
+    }
+
+    /**
+     * tests sort by genre
+     */
+    public void testSortByGenre() {
+        SongList genreList = new SongList();
+        genreList.add(song2);
+        genreList.add(song4);
+        genreList.add(song1);
+        genreList.add(song3);
+        originalList.sortSongs("genre");
+        assertEquals(originalList.getAt(0), genreList.getAt(0));
+        assertEquals(originalList.getAt(1), genreList.getAt(1));
+        assertEquals(originalList.getAt(2), genreList.getAt(2));
+        assertEquals(originalList.getAt(3), genreList.getAt(3));
+    }
+
+    /**
+     * tests sort by artist
+     */
+    public void testSortByArtist() {
+        SongList artistList = new SongList();
+        artistList.add(song1);
+        artistList.add(song4);
+        artistList.add(song3);
+        artistList.add(song2);
+        originalList.sortSongs("artist");
+        assertEquals(originalList.getAt(0), artistList.getAt(0));
+        assertEquals(originalList.getAt(1), artistList.getAt(1));
+        assertEquals(originalList.getAt(2), artistList.getAt(2));
+        assertEquals(originalList.getAt(3), artistList.getAt(3));
+
+    }
+
+    /**
+     * tests sort by year
+     */
+    public void testSortByYear() {
+        SongList yearList = new SongList();
+        yearList.add(song4);
+        yearList.add(song2);
+        yearList.add(song1);
+        yearList.add(song3);
+        originalList.sortSongs("year");
+        assertEquals(originalList.getAt(0), yearList.getAt(0));
+        assertEquals(originalList.getAt(1), yearList.getAt(1));
+        assertEquals(originalList.getAt(2), yearList.getAt(2));
+        assertEquals(originalList.getAt(3), yearList.getAt(3));
+
+    }
+
+    /**
+     * tests toString method
+     */
+    public void testToString() {
+        assertEquals("Song Title:DogSong Title:CatSong"
+                + " Title:LambSong Title:Bird", originalList.toString());
+    }
+
+    /**
+     * tests the iterator
+     */
+    public void testIterator() {
+        Iterator<Song> iter = originalList.iterator();
+        assertTrue(iter.hasNext());
+        assertEquals("Chris", iter.next().getArtist());
+        iter = emptyList.iterator();
+        Exception thrown = null;
+        try {
+            iter.next();
+        }
+        catch (NoSuchElementException e) {
+            thrown = e;
+        }
+        assertNotNull(thrown);
+    }
+
+}
