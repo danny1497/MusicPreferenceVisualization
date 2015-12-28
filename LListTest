@@ -1,0 +1,157 @@
+package prj5;
+
+
+import student.TestCase;
+/**
+ * Linked list test
+ * 
+ * @author Nathan Mussie <k1ngz>
+ * @author Conor Dewey <cdewey96>
+ * @author Cort Fisher <cortef1>
+ * @version 2015.11.30
+ *
+ */
+public class LListTest extends TestCase {
+
+    private LList<String> list;
+    
+    
+    /**
+     * sets up test fixture
+     */
+    public void setUp() {
+        list = new LList<String>();
+    }
+
+    /**
+     * tests everything
+     */
+    public void testStuff() {
+        assertTrue(list.isEmpty());
+        assertEquals(0, list.size());
+        list.add("Nathan");
+        assertFalse(list.isEmpty());
+        assertEquals(1, list.size());
+        assertEquals("Nathan", list.getAt(0));
+        list.add(0, "Mussie");
+        assertEquals("Mussie", list.getAt(0));
+        list.add("Conor");
+        assertEquals("Nathan", list.getAt(1));
+        list.set(1, "Cort");
+        assertEquals("Cort", list.getAt(1));
+        assertTrue(list.remove("Mussie"));
+        assertEquals(2, list.size());
+        assertEquals("Cort", list.getAt(0));
+        assertEquals("[Cort, Conor]", list.toString());
+        list.clear();
+        assertEquals(0, list.size());     
+        
+        
+    }
+    
+    /**
+     * Tests the add at index method
+     */
+    public void testAdd2() {
+        list.clear();
+        list.add(0, "Cort");
+        assertEquals(list.getAt(0), "Cort");
+        list.add(0, "Fisher");
+        assertEquals(list.getAt(0), "Fisher");
+        list.add(2, "Cory");
+        assertEquals(list.getAt(2), "Cory");
+        
+    }
+    
+    
+    /**
+     * Tests the set at index method
+     */
+    public void testSet() {
+        list.clear();
+        list.add("Cort");
+        list.add("Fisher");
+        list.add("Conor");
+        list.add("Nathan");
+        assertEquals(list.size(), 4);
+        list.set(3, "Mussie");
+        list.set(6, "C1");
+        assertEquals(list.size(), 4);
+        
+    }
+    
+    /**
+     * Tests getAt method
+     */
+    public void testGetAt() {
+        list.add("A");
+        Exception thrown = null;
+        try 
+        {
+            list.getAt(4);
+        } 
+        catch (Exception exception) 
+        {
+            thrown = exception;
+        }
+        assertNotNull(thrown); //checks that an exception was actually thrown
+        assertTrue(thrown instanceof IndexOutOfBoundsException); 
+       
+    }
+    
+    
+    /**
+     * Tests the remove method
+     */
+    public void testRemove() {
+        
+        
+        list.add("Cort");
+        assertEquals(list.getAt(0), "Cort");
+        list.remove("Cort");
+        assertTrue(list.isEmpty());
+        list.clear();
+        
+        list.add("Cort");
+        list.add("Fisher");
+        assertEquals(list.size(), 2);
+        list.remove("Cort");
+        assertEquals(list.size(), 1);
+        assertEquals(list.getAt(0), "Fisher");
+        list.clear();
+        
+        
+        list.add("Cort");
+        list.add("Fisher");
+        assertEquals(list.size(), 2);
+        list.remove("Fisher");
+        assertEquals(list.getAt(0), "Cort");
+        list.clear();
+        
+        list.add("A");
+        list.add("B");
+        list.add("C");
+        list.add("D");
+        list.add("E");
+        assertEquals(list.size(), 5);
+        list.remove("E");
+        list.remove("A");
+        assertEquals(list.size(), 3);
+        list.add("A");
+        list.remove("C");
+        list.clear();
+        
+        list.add("A");
+        assertFalse(list.remove("D"));
+        list.clear();
+        assertFalse(list.remove("A"));
+        
+        
+        list.add("A");
+        list.add("B");
+        list.add(null);
+        list.remove("A");
+        
+    }
+
+}
