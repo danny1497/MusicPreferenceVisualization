@@ -1,0 +1,68 @@
+package prj5;
+
+import student.TestCase;
+
+/**
+ * Test class for Person
+ * 
+ * @author Nathan Mussie <k1ngz>
+ * @author Conor Dewey <cdewey96>
+ * @author Cort Fisher <cortef1>
+ * @version 2015.11.30
+ *
+ */
+public class PersonTest extends TestCase {
+
+    private Person per;
+    private Person samePer;
+    private Person diffPer;
+    private Object obj;
+    private Person almostState;
+    private Person almostHobby;
+    private Person almostMajor;
+
+    /**
+     * sets up every test case
+     */
+    public void setUp() {
+        per = new Person("Soccer", "CompSci", "VA");
+        obj = new Object();
+        samePer = new Person("Soccer", "CompSci", "VA");
+        diffPer = new Person("Basketball", "History", "CA");
+        almostState = new Person("Soccer", "CompSci", "CA");
+        almostHobby = new Person("Basketball", "CompSci", "VA");
+        almostMajor = new Person("Soccer", "History", "VA");
+    }
+    
+    /**
+     * testing getters and setters
+     */
+    public void testGetsAndSets() {
+        assertEquals("CompSci", per.getMajor());
+        assertEquals("Soccer", per.getHobby());
+        assertEquals("VA", per.getState());
+    }
+
+    /**
+     * tests toString method
+     */
+    public void testToString() {
+        assertEquals("Soccer,CompSci,VA", per.toString());
+    }
+
+    /**
+     * tests equals method
+     */
+    public void testEquals() {
+        assertFalse(per.equals(obj));
+        assertFalse(per.equals(diffPer));
+        assertTrue(per.equals(samePer));
+        diffPer = per;
+        assertTrue(per.equals(diffPer));
+        diffPer = null;
+        assertFalse(per.equals(diffPer));
+        assertFalse(per.equals(almostState));  
+        assertFalse(per.equals(almostHobby));
+        assertFalse(per.equals(almostMajor));
+    }
+}
