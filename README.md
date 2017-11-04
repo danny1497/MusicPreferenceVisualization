@@ -1,4 +1,4 @@
-# MusicPreferenceVisualization (Completed 11/30/15)
+# Music Preference Visualization
 
 Authors: Conor Dewey, Nathan Mussie, Cort Fisher
 
